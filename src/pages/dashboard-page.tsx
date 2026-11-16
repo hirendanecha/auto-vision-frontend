@@ -1,12 +1,15 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ArrowRight, ChevronRight, Play } from 'lucide-react'
 import { HowItWorks } from '../components/HowItWorks'
 import { FeatureCards } from '../components/FeatureCards'
 import { useAuth } from '../context/auth-context'
+import { DemoVideoModal } from '../components/dashboard/demo-video-modal'
 
 export function DashboardPage() {
   const { user } = useAuth()
+  const [isDemoOpen, setIsDemoOpen] = useState(false)
   return (
     <div className="flex flex-col">
       {/* Section 1: Hero */}
@@ -58,10 +61,10 @@ export function DashboardPage() {
                   </button>
                 </Link>
                 <button 
-                  onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="flex items-center gap-2 font-semibold text-slate-900 hover:text-[#984216] transition-colors group"
+                  onClick={() => setIsDemoOpen(true)}
+                  className="flex items-center gap-2 font-semibold text-slate-900 hover:text-[#984216] transition-colors group cursor-pointer"
                 >
-                  <div className="w-10 h-10 rounded-full bg-white border border-brand-100 flex items-center justify-center text-brand-700 group-hover:border-[#984216]/30 transition-colors shadow-sm">
+                  <div className="w-10 h-10 rounded-full bg-white border border-brand-100 flex items-center justify-center text-brand-700 group-hover:border-[#984216]/30 group-hover:scale-105 transition-all shadow-sm">
                     <Play className="h-4 w-4 fill-current" />
                   </div>
                   Watch Demo
@@ -165,6 +168,12 @@ export function DashboardPage() {
           </div>
         </div>
       </section>
+
+      {/* Product Demo Video Modal */}
+      <DemoVideoModal 
+        isOpen={isDemoOpen} 
+        onClose={() => setIsDemoOpen(false)} 
+      />
     </div>
   )
 }
